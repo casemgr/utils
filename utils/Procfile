@@ -1,0 +1,1 @@
+web: java $JVM_OPTS -cp target/utils.jar clojure.main -m systems.casemgr.utils.utils.server
