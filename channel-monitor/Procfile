@@ -1,0 +1,1 @@
+web: java $JVM_OPTS -cp target/channel-monitor.jar clojure.main -m com.cybershopsystems.channel-monitor.server
