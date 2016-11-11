@@ -36,6 +36,8 @@
                  [compojure "1.5.0"]
                  [environ "1.0.3"]
 
+                 [bouncer "0.3.3"]
+
                  ]
 
   :plugins [[lein-cljsbuild "1.1.3"]
