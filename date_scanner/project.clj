@@ -17,8 +17,6 @@
                  [systems.casemgr.utils/utils "0.1.0-SNAPSHOT"]
                  [systems.casemgr.utils/channel-monitor "0.1.0-SNAPSHOT"]
                  [systems.casemgr.utils/pathdb "0.1.0-SNAPSHOT" :exclusions [org.clojure/clojure junit]]
-                 [systems.casemgr.casemgr/utils "0.1.0-SNAPSHOT"]
-                 [systems.casemgr.casemgr/state "0.1.0-SNAPSHOT"]
                  ]
 
   :plugins [[lein-figwheel "0.5.8"]
