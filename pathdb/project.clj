@@ -4,8 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.122"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.89"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [sablono "0.3.6"]
                  [org.omcljs/om "0.9.0"]
@@ -18,8 +18,8 @@
                  [funcool/hodgepodge "0.1.4"]
                  ]
 
-  :plugins [[lein-cljsbuild "1.1.0"]
-            [lein-figwheel "0.4.1" :exclusions [org.clojure/clojure org.codehaus.plexus/plexus-utils]]
+  :plugins [[lein-cljsbuild "1.1.6"]
+            [lein-figwheel "0.5.10" :exclusions [org.clojure/clojure org.codehaus.plexus/plexus-utils]]
            ]
 
   :source-paths ["src"]

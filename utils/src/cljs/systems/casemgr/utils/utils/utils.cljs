@@ -109,7 +109,7 @@
     ))
 
 (defn footer-text []
-  "Copyright \u00a9 2014-2016 Case Manager Systems - All Rights Reserved")
+  "Copyright \u00a9 2014-2017 Case Manager Systems - All Rights Reserved")
 
 ;; used for testing what is passed to on-change function
 (defn on-change

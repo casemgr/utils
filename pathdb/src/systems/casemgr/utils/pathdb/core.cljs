@@ -13,7 +13,7 @@
 
 (enable-console-print!)
 
-;(println "<-----------------Start of core")
+(println "<-----------------Start of core")
 
 ;; define your app data so that it doesn't get over-written on reload
 
