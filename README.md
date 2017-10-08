@@ -1,10 +1,10 @@
 # utils
 
 * This no longer works with package names
-* lein new chestnut systems.casemgr.utils/channel-monitor
+* lein new chestnut systems.casemgr.utils/hello-world
 
 * Use this:
-* lein new figwheel systems.casemgr.utils.dispatcher -- --om 
+* lein new figwheel systems.casemgr.utils.hello-world -- --om 
 
-** Change the name to be something useful
+** Change the generated name to be something useful
 
