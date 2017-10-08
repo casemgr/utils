@@ -1,38 +1,42 @@
 (ns user
-  (:require [systems.casemgr.utils.dispatcher.application]
-            [com.stuartsierra.component :as component]
-            [figwheel-sidecar.config :as fw-config]
-            [figwheel-sidecar.system :as fw-sys]
-            [clojure.tools.namespace.repl :refer [set-refresh-dirs]]
-            [reloaded.repl :refer [system init]]
-            [ring.middleware.reload :refer [wrap-reload]]
-            [figwheel-sidecar.repl-api :as figwheel]
-            [systems.casemgr.utils.dispatcher.config :refer [config]]))
+  (:require
+   [figwheel-sidecar.repl-api :as f]))
 
-(defn dev-system []
-  (assoc (systems.casemgr.utils.dispatcher.application/app-system (config))
-    :figwheel-system (fw-sys/figwheel-system (fw-config/fetch-config))
-    :css-watcher (fw-sys/css-watcher {:watch-paths ["resources/public/css"]})))
+;; user is a namespace that the Clojure runtime looks for and
+;; loads if its available
 
-(set-refresh-dirs "src" "dev")
-(reloaded.repl/set-init! #(dev-system))
+;; You can place helper functions in here. This is great for starting
+;; and stopping your webserver and other development services
 
-(defn cljs-repl []
-  (fw-sys/cljs-repl (:figwheel-system system)))
+;; The definitions in here will be available if you run "lein repl" or launch a
+;; Clojure repl some other way
 
-;; Set up aliases so they don't accidentally
-;; get scrubbed from the namespace declaration
-(def start reloaded.repl/start)
-(def stop reloaded.repl/stop)
-(def go reloaded.repl/go)
-(def reset reloaded.repl/reset)
-(def reset-all reloaded.repl/reset-all)
+;; You have to ensure that the libraries you :require are listed in your dependencies
 
-;; deprecated, to be removed in Chestnut 1.0
-(defn run []
-  (println "(run) is deprecated, use (go)")
-  (go))
+;; Once you start down this path
+;; you will probably want to look at
+;; tools.namespace https://github.com/clojure/tools.namespace
+;; and Component https://github.com/stuartsierra/component
 
-(defn browser-repl []
-  (println "(browser-repl) is deprecated, use (cljs-repl)")
-  (cljs-repl))
+
+(defn fig-start
+  "This starts the figwheel server and watch based auto-compiler."
+  []
+  ;; this call will only work are long as your :cljsbuild and
+  ;; :figwheel configurations are at the top level of your project.clj
+  ;; and are not spread across different lein profiles
+
+  ;; otherwise you can pass a configuration into start-figwheel! manually
+  (f/start-figwheel!))
+
+(defn fig-stop
+  "Stop the figwheel server and watch based auto-compiler."
+  []
+  (f/stop-figwheel!))
+
+;; if you are in an nREPL environment you will need to make sure you
+;; have setup piggieback for this to work
+(defn cljs-repl
+  "Launch a ClojureScript REPL that is connected to your build and host environment."
+  []
+  (f/cljs-repl))
