@@ -8,3 +8,11 @@
 
 ** Change the generated name to be something useful
 
+** which of these are moving to router-channels?
+
+are_you_sure
+channel-monitor
+date_scanner
+dispatcher
+pathdb
+utils

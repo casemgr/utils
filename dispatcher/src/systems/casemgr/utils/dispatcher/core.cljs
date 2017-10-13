@@ -26,3 +26,20 @@
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
 )
+
+(defn root-component [app owner]
+  (reify
+    om/IDidMount
+    (did-mount [_]
+      (let [publisher (:publisher (om/get-shared owner))]
+        (println "root-component:did-mount")
+        (put! publisher {:topic :component-msg :message :init-state :component-id :selected-daily-date :label "Select a Day" :display false})
+        ))
+    om/IRender
+    (render [_]
+      (dom/div
+       nil
+       (om/build cm/canvas-mouse-widget {})
+       ))))
+
+(main/main root-component)
