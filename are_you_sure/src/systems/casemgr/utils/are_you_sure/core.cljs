@@ -2,6 +2,7 @@
   (:require [cljs.core.async :as async :refer [chan <! >! timeout pub sub unsub unsub-all put! alts!]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [systems.casemgr.utils.utils.main :as main]
             [systems.casemgr.utils.channel_monitor.channel_monitor :as cm]
             [systems.casemgr.utils.are_you_sure.are_you_sure :as ays]
             ))
@@ -33,33 +34,12 @@
     (render [_]
       (dom/div
         nil
-        ;(dom/h1 nil "hello world")
         (om/build cm/channel-monitor-widget {})
         (om/build ays/are-you-sure-widget {})
         (delete-job owner "" {:path "test/path"})
         ))))
 
-(defn main []
-  (let [tx-chan (chan)
-        tx-pub-chan (async/pub tx-chan (fn [_] :txs))
-        req-chan (chan)
-        update-chan (chan)
-        publisher (chan)
-        publication (pub publisher #(:topic %))]
-    ;(state/subscribe-to-requests publication)
-    (om/root
-      root-component
-      {}                                                    ;;state/app-state
-      {:shared    {:req-chan    req-chan
-                   :update-chan update-chan
-                   :tx-chan     tx-pub-chan
-                   :publisher   publisher
-                   :publication publication}
-       :tx-listen (fn [tx-data root-cursor]
-                    (put! tx-chan [tx-data root-cursor]))
-       :target    (. js/document (getElementById "app"))})
-    ))
-(main)
+(main/main root-component)
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

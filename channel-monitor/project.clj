@@ -22,7 +22,7 @@
                  ;[org.omcljs/om "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha36"]
 
-
+                 [systems.casemgr.casemgr/utils "0.1.0-SNAPSHOT"]
 
                  ]
 

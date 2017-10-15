@@ -2,6 +2,7 @@
   (:require [cljs.core.async :as async :refer [chan <! >! timeout pub sub unsub unsub-all put! alts!]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [systems.casemgr.utils.utils.main :as main]
             [systems.casemgr.utils.channel_monitor.channel_monitor :as cm]
             [systems.casemgr.utils.date_scanner.date_scanner :as ds]
             ))
@@ -19,34 +20,13 @@
     (render [_]
       (dom/div
         nil
-        ;(dom/h1 nil "hello world")
         (om/build cm/channel-monitor-widget {})
         (om/build ds/date-scanner-widget {:component-id :selected-daily-date
                                           :display true
-                                          :selected-date "20161110"})
+                                          :selected-date "20171014"})
         ))))
 
-(defn main []
-  (let [tx-chan (chan)
-        tx-pub-chan (async/pub tx-chan (fn [_] :txs))
-        req-chan (chan)
-        update-chan (chan)
-        publisher (chan)
-        publication (pub publisher #(:topic %))]
-    ;(state/subscribe-to-requests publication)
-    (om/root
-      root-component
-      {}                                                    ;;state/app-state
-      {:shared    {:req-chan    req-chan
-                   :update-chan update-chan
-                   :tx-chan     tx-pub-chan
-                   :publisher   publisher
-                   :publication publication}
-       :tx-listen (fn [tx-data root-cursor]
-                    (put! tx-chan [tx-data root-cursor]))
-       :target    (. js/document (getElementById "app"))})
-    ))
-(main)
+(main/main root-component)
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

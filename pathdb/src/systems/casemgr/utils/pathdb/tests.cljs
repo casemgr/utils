@@ -182,3 +182,6 @@
 ;(pp/pprint (re-index drafts-db-2 "/Shops/shop0001/indices/task_indices" index-tasks))
 
 (println "<-----------------end of tests")
+
+(defn run-tests[]
+  (println "running tests..."))
