@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [systems.casemgr.utils.utils.main :as main]
+            [systems.casemgr.utils.dispatcher.dispatcher :as dispatcher]
             ))
 
 (enable-console-print!)
@@ -24,18 +25,33 @@
 ;  app-state
 ;  {:target (. js/document (getElementById "app"))})
 
+;(defn root-component [app owner]
+  ;(reify
+    ;om/IDidMount
+    ;(did-mount [_]
+      ;(println "root-component:did-mount")
+      ;)
+    ;om/IRender
+    ;(render [_]
+      ;(dom/div nil
+               ;;(dom/h1 nil (:text data))
+               ;(dom/h3 nil "Edit this and watch it change!"))
+      ;)))
+
 (defn root-component [app owner]
   (reify
     om/IDidMount
     (did-mount [_]
-      (println "root-component:did-mount")
-      )
+      (let [publisher (:publisher (om/get-shared owner))]
+        (println "root-component:did-mount")
+        ;(put! publisher {:topic :component-msg :message :init-state :component-id :selected-daily-date :label "Select a Day" :display false})
+        ))
     om/IRender
     (render [_]
-      (dom/div nil
-               ;(dom/h1 nil (:text data))
-               (dom/h3 nil "Edit this and watch it change!"))
-      )))
+      (dom/div
+       nil
+       (om/build dispatcher/ws-widget {})
+       ))))
 
 (main/main root-component)
 
