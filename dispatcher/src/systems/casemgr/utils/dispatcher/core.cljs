@@ -42,15 +42,15 @@
   (reify
     om/IDidMount
     (did-mount [_]
+      (println "root-component:did-mount")
       (let [publisher (:publisher (om/get-shared owner))]
-        (println "root-component:did-mount")
         ;(put! publisher {:topic :component-msg :message :init-state :component-id :selected-daily-date :label "Select a Day" :display false})
         ))
     om/IRender
     (render [_]
       (dom/div
        nil
-       (om/build dispatcher/ws-widget {})
+       (om/build dispatcher/ws-widget {:port 4000})
        ))))
 
 (main/main root-component)

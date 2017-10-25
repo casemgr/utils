@@ -1,4 +1,4 @@
-(ns systems.casemgr.utils.dispatcher.core
+(ns systems.casemgr.utils.dispatcher.dispatcher
   (:require-macros [cljs.core.async.macros :as asyncm :refer (go go-loop)])
   (:require [cljs.core.async :as async :refer [chan <! >! timeout pub sub unsub unsub-all put! alts!]]
             [cljs.core.match :refer-macros [match]]
@@ -15,13 +15,18 @@
   "Actually connects the web socket to the server and starts the local event loop."
   [global-state {:keys [socket] :as local-state}]
   (let [doc-uri (.-location js/window)
+        _ (println "doc-uri:" doc-uri)
         host (.-host doc-uri)
         pathname (.-pathname doc-uri)
         slash (if (= (.-length pathname) 1) "" "/")
         ws-uri (str "ws://" host pathname slash "happiness")
         ]
     (println "host:" host "pathname:" pathname)
-    (.open socket ws-uri)))
+    (println "ws-uri:" ws-uri)
+    ;(.open socket ws-uri)
+    (.open socket "ws://localhost:4000/socket")
+    )
+  )
 
 (defn ^:private shutdown
   "Tears down the web socket connection."
@@ -85,9 +90,11 @@
   (reify
     om/IInitState
     (init-state [_]
+     (println "ws-widget->init-state")
      (make-init-state owner))
     om/IWillMount
     (will-mount [_]
+      (println "will-mount->cursor" cursor)
       (startup cursor (om/get-state owner)))
     om/IDidMount
     (did-mount [_]
