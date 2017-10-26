@@ -1,0 +1,8 @@
+* flow of data and ideas
+*** at startup we should connect to the lobby
+*** lobby should respond with any kind of message of the day
+*** We should validate the user
+*** Every client should connect to the lobby, this gives users access to the system
+*** we can store the userid and password encrypted in memory - OTP
+*** JWT
+*** We can validate the user at any time at the server
