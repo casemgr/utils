@@ -11,6 +11,12 @@
             )
   (:import goog.net.WebSocket))
 
+
+
+
+
+
+;; todo we need to replace this
 (defn ^:private startup
   "Actually connects the web socket to the server and starts the local event loop."
   [global-state {:keys [socket] :as local-state}]
@@ -28,11 +34,16 @@
     )
   )
 
+;; call close on the channel or the socket?
 (defn ^:private shutdown
   "Tears down the web socket connection."
   [{:keys [socket]}]
   (.close socket))
 
+;; this is where we do the socket connection and room:lobby
+;; how do we connect to a different channel?
+;; log in should id the shop
+;; one per shop
 (defn ^:private make-init-state
   "Creates the initial state for the web socket widget.  In particular, this
   instantiates a WebSocket instance and creates a core.async channel for
@@ -113,6 +124,7 @@
                 component-id (:component-id v)
                 message (:message v)]
             ;(println "current-state:" current-state)
+            ;; get rid of match
             (match [destination topic            component-id         message  ]
                    [_           :server-msg      _                    _        ] (generic-server-msg socket v)
                    [_           :dispatcher      :socket              :opened  ] (socket-opened socket publisher v)
