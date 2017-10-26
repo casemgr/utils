@@ -9,13 +9,14 @@
 
 (enable-console-print!)
 
+(println "starting...")
 ;(println "This text is printed from src/systems.casemgr.utils.phoenix-client/core.cljs. Go ahead and edit it and see reloading in action.")
 
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {:text "Hello world!"}))
 
-(def socket (js/Phoenix.Socket. "ws://localhost:4000/socket"  {:params {:userToken "123"}}))
+(def socket (js/Phoenix.Socket. "ws://localhost:4000/socket"  (clj->js {"params:" {"userToken:" "123"}})))
                                         ;(println (js-keys socket))
 (def connected-socket (. socket connect))
 
@@ -23,16 +24,23 @@
 (def channel (. socket channel "room:lobby" ))
 
 (defn receive [params]
+  (println "in receive:")
   (println (js-keys params))
   (println (aget params "token"))
   (println (aget params "path"))
+  (println (aget params "body"))
   )
 
 ;(. channel on )
 ;(doto (. channel join)
 ;  (events/listen "receive" receive))
-(def joined-channel (. channel join))
+;(def joined-channel (. channel join))
+;(-> channel .join (.receive "ok" #(js/console.log "ok" %)) (.receive "error" #(js/console.log "error" %)))
+(-> channel .join (.receive "ok" receive) )
 ;something like (-> channel .join (.receive "ok" #(js/console.log "meh" %))) should work
+;(-> channel .leave)
+
+(-> channel .canPush)
 
 (. channel push "new_msg" (clj->js {:token "hello world" :path "/shop1/cust1"}))
 (. channel on "new_msg" receive)
