@@ -2,7 +2,7 @@
   (:require-macros [cljs.core.async.macros :as asyncm :refer (go go-loop)])
   (:require [cljs.core.async :as async :refer [chan <! >! timeout pub sub unsub unsub-all put! alts!]]
             [cljs.core.match :refer-macros [match]]
- ;           [goog.events :as ev]
+                                        ;           [goog.events :as ev]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [cljs.reader :as reader]
@@ -28,6 +28,8 @@
         ]
     (println "host:" host "pathname:" pathname)
     (println "ws-uri:" ws-uri)
+                                        ;    (def socket (js/Phoenix.Socket. "ws://localhost:4000/socket"  (clj->js {"params:" {"userToken:" "123"}})))
+    (println (js-keys socket))
                                         ;(.open socket ws-uri)
                                         ;(.open socket "ws://localhost:4000/socket")
     )
@@ -48,9 +50,10 @@
   "Creates the initial state for the web socket widget.  In particular, this
   instantiates a WebSocket instance and creates a core.async channel for
   handling events from the WebSocket. "
-  [owner]
-                                        ;  (let [socket (WebSocket.)
-                                        ;        publisher (:publisher (om/get-shared owner))]
+  [owner cursor]
+  (let [
+                                        ;  socket (WebSocket.)
+        publisher (:publisher (om/get-shared owner))]
                                         ;    (ev/listen socket
                                         ;               #js [WebSocket.EventType.CLOSED
                                         ;                    WebSocket.EventType.ERROR
@@ -78,11 +81,13 @@
                                         ;                 ;;(println "socket-state:" (:socket-state @state/app-state))
                                         ;                 ;;(println "app-state:" @state/app-state)
                                         ;                 ))
-                                        ;    {:socket socket})
+                                        ;    {:socket socket}
+    {:e-map {:display false :socket nil}}
+    )
   )
 
 (defn socket-opened [socket publisher v]
-                                        ;(println "dispatcher->socket-opened->v:" v)
+  (println "dispatcher->socket-opened->v:" v)
   )
 
 (defn generic-server-msg [socket v]
@@ -91,7 +96,7 @@
   )
 
 (defn user-logged-in [socket publisher v]
-                                        ;(println "dispatcher->user-logged-in->v:" v)
+  (println "dispatcher->user-logged-in->v:" v)
   (when (:logged-in v)
                                         ;   (put! publisher {:topic :server-msg :component-id :shop-data :message :get})
                                         ;(put! publisher {:topic :server-msg :component-id :employees :message :get})
@@ -104,7 +109,9 @@
     om/IInitState
     (init-state [_]
       (println "ws-widget->init-state")
-      (make-init-state owner))
+      (println "init-state->cursor" cursor)
+      (make-init-state owner cursor)
+      )
     om/IWillMount
     (will-mount [_]
       (println "will-mount->cursor" cursor)
@@ -140,8 +147,11 @@
     om/IWillUnmount
     (will-unmount [_]
       (shutdown (om/get-state owner)))
-    om/IRender
-    (render [_] ; We must render somthing…
+    om/IRenderState
+    (render-state [_ {:keys [e-map]}]
+                                        ;om/IRender
+                                        ;   (render [_] ; We must render somthing…
+      (pp/pprint e-map)
       (dom/span nil "hello world"))
     om/IDisplayName
     (display-name [_] "ws-widget")))
