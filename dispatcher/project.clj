@@ -13,8 +13,8 @@
                  [cljsjs/react-dom "15.6.1-1"]
                  [sablono "0.8.0"]
                  [org.omcljs/om "1.0.0-alpha46"]
-                 [systems.casemgr.utils/utils "0.1.0-SNAPSHOT"]
                  [cljsjs/phoenix "1.3.0-0"] ;; latest release
+                 [systems.casemgr.utils/utils "0.1.0-SNAPSHOT"]
                  ]
 
   :plugins [[lein-figwheel "0.5.13"]
