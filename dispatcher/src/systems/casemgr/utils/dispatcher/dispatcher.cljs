@@ -29,7 +29,9 @@
     (println "host:" host "pathname:" pathname)
     (println "ws-uri:" ws-uri)
                                         ;    (def socket (js/Phoenix.Socket. "ws://localhost:4000/socket"  (clj->js {"params:" {"userToken:" "123"}})))
-    (println (js-keys socket))
+    ;(println (js-keys socket))
+    (println local-state)
+    (println global-state)
                                         ;(.open socket ws-uri)
                                         ;(.open socket "ws://localhost:4000/socket")
     )
@@ -82,7 +84,7 @@
                                         ;                 ;;(println "app-state:" @state/app-state)
                                         ;                 ))
                                         ;    {:socket socket}
-    {:e-map {:display false :socket nil}}
+    {:e-map {:display false :socket nil :port (:port cursor)}}
     )
   )
 

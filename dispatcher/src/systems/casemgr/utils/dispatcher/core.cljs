@@ -50,7 +50,7 @@
     (render [_]
       (dom/div
        nil
-       (om/build dispatcher/ws-widget {:port 4000})
+       (om/build dispatcher/ws-widget {:type :cursor :port 4000})
        ))))
 
 (main/main root-component)
