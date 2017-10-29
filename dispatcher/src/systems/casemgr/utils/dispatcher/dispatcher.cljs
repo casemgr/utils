@@ -11,6 +11,27 @@
             )
   )
 
+(defn socket-opened [socket publisher v]
+  (println "dispatcher->socket-opened->v:" v)
+  )
+
+(defn generic-server-msg [socket v]
+  (println "dispatcher->generic-server-msg->v:" v)
+                                        ; (.send socket v)
+  )
+
+(defn user-logged-in [socket publisher v]
+  (println "dispatcher->user-logged-in->v:" v)
+  (when (:logged-in v)
+    ))
+
+;; TODO how do we connect to a different channel?
+;; TODO log in should id the shop
+;; TODO one per shop
+;; TODO we need an login for a channel
+(defn login-to-channel[]
+  )
+
 (defn receive-ok [params]
   (println "in receive-ok:")
   (println (js-keys params))
@@ -26,7 +47,8 @@
   (println (aget params "path"))
   (println (aget params "body"))
   )
-;; todo we need to replace this
+;; TODO we need to replace this
+;; TODO save off channel
 (defn ^:private startup
   "Actually connects the web socket to the server and starts the local event loop."
   [cursor owner]
@@ -47,16 +69,14 @@
   )
 
 ;; call close on the channel or the socket?
+;; TODO Close sockets and channels?
 (defn ^:private shutdown
   "Tears down the web socket connection."
   [{:keys [socket]}]
                                         ; (.close socket)
   )
 
-;; this is where we do the socket connection and room:lobby
-;; how do we connect to a different channel?
-;; log in should id the shop
-;; one per shop
+;; this is where we do the socket connection
 (defn ^:private make-init-state
   "Creates the initial state for the web socket widget.  In particular, this
   instantiates a WebSocket instance and creates a core.async channel for
@@ -88,20 +108,8 @@
     )
   )
 
-(defn socket-opened [socket publisher v]
-  (println "dispatcher->socket-opened->v:" v)
-  )
-
-(defn generic-server-msg [socket v]
-  (println "dispatcher->generic-server-msg->v:" v)
-                                        ; (.send socket v)
-  )
-
-(defn user-logged-in [socket publisher v]
-  (println "dispatcher->user-logged-in->v:" v)
-  (when (:logged-in v)
-    ))
-
+;; TODO move the loops and matches out
+;; TODO we need to respond to incoming messages
 (defn ws-widget [cursor owner]
   (reify
     om/IInitState
@@ -116,6 +124,7 @@
       (startup cursor owner))
     om/IDidMount
     (did-mount [_]
+      ;; TODO Subscribe to topic router
       (let [publication (:publication (om/get-shared owner))
             server-message-events (sub publication :server-msg (chan))
             dispatcher-events (sub publication :dispatcher (chan))
