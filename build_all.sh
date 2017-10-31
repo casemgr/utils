@@ -5,18 +5,18 @@
 #lein cljsbuild once
 #lein install
 #cd ..
-echo "-----dispatcher"
-cd dispatcher
-lein clean
-lein cljsbuild once
-lein install
-cd ..
-#echo "-----channel-monitor"
-#cd channel-monitor  
+#echo "-----dispatcher"
+#cd dispatcher
 #lein clean
 #lein cljsbuild once
 #lein install
 #cd ..
+echo "-----channel-monitor"
+cd channel-monitor  
+lein clean
+lein cljsbuild once
+lein install
+cd ..
 #echo "-----are_you_sure"
 #cd are_you_sure  
 #lein clean
