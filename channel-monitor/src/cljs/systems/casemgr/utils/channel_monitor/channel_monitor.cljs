@@ -4,7 +4,7 @@
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as str]
-            [bootstrap-cljs.core :as bs :include-macros true]
+            ;[bootstrap-cljs.core :as bs :include-macros true]
             )
   )
 
