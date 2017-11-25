@@ -91,7 +91,7 @@
 
 ;; todo this isn't picking up the new :hours and :notes
 (println "<-----------------before")
-(pp/pprint results)
+;(pp/pprint results)
 (def updated-db (pdb/update-db {:path     "/Shops/shop0001/customers/cust0001/veh0002/job0001"
                                 :old-path "/Shops/shop0001/customers/cust0001/veh0001/job0001"
                                 :job-id   "job0001"
@@ -99,7 +99,8 @@
                                 :notes    "notes.veh0002"}
                                "/Shops/shop0001/indices/task_indices"
                                results))
-(pp/pprint updated-db)
+;(pp/pprint updated-db)
+(pp/pprint (pdb/select "/Shops/shop0001/customers/cust0001" updated-db))
 
 ;(clear! local-storage)
 ;
@@ -126,7 +127,7 @@
 
 ;(println "<-----------------re-index")
 ;(pp/pprint (re-index updated-db "/Shops/shop0001/indices/task_indices" index-tasks))
-;(pp/pprint (pdb/select "/Shops/shop0001/cust0001/veh0002/job0001" updated-db))
+;(pp/pprint (pdb/select "/Shops/shop0001/customers/cust0001" updated-db))
 
 ;(def drafts-test-data [
 ;                       {:path "/Shops/shop0001/drafts"}
@@ -137,6 +138,8 @@
 
 ;(def drafts-db (pdb/insert-rows-into-tree drafts-test-data results))
 ;(println "<-----------------drafts->before")
+
+
 ;(pp/pprint drafts-db)
 
 ;(pp/pprint (pdb/select "/Shops/shop0001/drafts/job0003" drafts-db))
@@ -185,3 +188,10 @@
 
 (defn run-tests[]
   (println "running tests..."))
+
+(defn on-js-reload []
+  ;; optionally touch your app-state to force rerendering depending on
+  ;; your application
+                                        ;(swap! app-state update-in [:__figwheel_counter] inc)
+  )
+
